@@ -1,4 +1,4 @@
-import Footer from "@/components/actual/footer";
+
 import { NavbarDemo } from "@/components/actual/navbar";
 export default function RootLayout({
     children,
@@ -9,7 +9,7 @@ export default function RootLayout({
         <main className="bg-gray-900 relative flex flex-col justify-center items-center overflow-hidden sm:px-0" suppressHydrationWarning>
         <NavbarDemo/>
         <div className="w-full">{children}</div>
-        <Footer/>
+
       </main>
     );
   }
