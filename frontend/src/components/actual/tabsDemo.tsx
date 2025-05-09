@@ -1,7 +1,74 @@
 "use client"
 import { Tabs } from "../ui/tabs";
+import { useState } from "react";
+interface QuestionProps {
+  answers: Record<string, string[]>;
+  handleCheckboxChange: (question: keyof Answers, option: string) => void;
+}
 
+type Answers = Record<string, string[]>;
 export function TabsDemo() {
+  const [answers, setAnswers] = useState<Answers>({
+    question3: [],
+    question10: [],
+  });
+
+
+  const handleCheckboxChange = (question: keyof Answers, value: string) => {
+    setAnswers((prevAnswers) => {
+      const updatedAnswers = { ...prevAnswers };
+      if (updatedAnswers[question].includes(value)) {
+        updatedAnswers[question] = updatedAnswers[question].filter((item) => item !== value);
+      } else {
+        updatedAnswers[question].push(value);
+      }
+      return updatedAnswers;
+    });
+  };
+
+  const Results: React.FC<{ answers: Answers }> = ({ answers }) => {
+    const question3Answers = answers.question3;
+
+    const handleRedirection = (answer: string) => {
+      if (answer === "Relaxing Music") return "/features/music";
+      if (answer === "Guided Meditation") return "/features/meditation";
+      if (answer === "Breathing Exercises") return "/features/breathing-exercise";
+      if (answer === "Stress Relief Yoga") return "/features/yoga";
+      if (answer === "Mindfulness Activities") return "/features/mindful-activities";
+      if (answer === "Healthy Recipes") return "/features/healthy-recipes";
+
+      return "/";
+    };
+
+    return (
+      <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
+        <p>According to Your Answers</p>
+        <div className="mt-5">
+          <div>
+            {question3Answers.length === 0 ? (
+              <span>No responses selected</span>
+            ) : (
+              <>
+                <p className="mt-5">Try these for relaxation:</p>
+                <div className="mt-2 space-y-2">
+                  {question3Answers.map((answer, index) => (
+                    <div key={index}>
+                      <a
+                        href={handleRedirection(answer)}
+                        className="text-blue-500 hover:underline"
+                      >
+                        {answer}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
   const tabs = [
     {
       title: "Question 1",
@@ -29,7 +96,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
           <p>What strategies do you use to cope with stress? (Select all that apply)</p>
-          <Question3 />
+          <Question3 answers={answers} handleCheckboxChange={handleCheckboxChange} />
         </div>
       ),
     },
@@ -99,58 +166,15 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
           <p>How often do you feel that stress negatively impacts your mental or physical health? (Select all that apply)</p>
-          <Question10 />
+          <Question10/>
         </div>
       ),
+      
     },
     {
-      title: "Question 11",
-      value: "question11",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>How often do you feel that stress negatively impacts your mental or physical health? (Select all that apply)</p>
-          <Question11 />
-        </div>
-      ),
-    },
-    {
-      title: "Question 12",
-      value: "question12",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>How often do you feel that stress negatively impacts your mental or physical health? (Select all that apply)</p>
-          <Question12 />
-        </div>
-      ),
-    },{
-      title: "Question 13",
-      value: "question13",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>How often do you feel that stress negatively impacts your mental or physical health? (Select all that apply)</p>
-          <Question13 />
-        </div>
-      ),
-    },
-    {
-      title: "Question 14",
-      value: "question14",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>How often do you feel that stress negatively impacts your mental or physical health? (Select all that apply)</p>
-          <Question14 />
-        </div>
-      ),
-    },
-    {
-      title: "Question 15",
-      value: "question15",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-3xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>How often do you feel that stress negatively impacts your mental or physical health? (Select all that apply)</p>
-          <Question15 />
-        </div>
-      ),
+      title: "Results",
+      value: "results",
+      content: <Results answers={answers} />,
     },
   
   ];
@@ -166,16 +190,16 @@ const Question1 = () => {
   return (
     <div className="flex flex-col mt-8">
       <label className="flex items-center mr-4">
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Never
+        <input type="checkbox" className="mr-2 h-10 w-5" value="never" /> Never
       </label>
       <label className="flex items-center">
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Occasionally
+        <input type="checkbox" className="mr-2 h-10 w-5" value="occasionally" /> Occasionally
       </label>
       <label className="flex items-center">
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Frequently
+        <input type="checkbox" className="mr-2 h-10 w-5" value="frequently" /> Frequently
       </label>
       <label className="flex items-center">
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Almost Always
+        <input type="checkbox" className="mr-2 h-10 w-5" value="almost_always" /> Almost Always
       </label>
     </div>
   );
@@ -209,27 +233,35 @@ const Question2 = () => {
   );
 };
 
-const Question3 = () => {
+const Question3: React.FC<QuestionProps> = ({ answers, handleCheckboxChange }) => {
+  const options = [
+    "Relaxing Music",
+    "Guided Meditation",
+    "Breathing Exercises",
+    "Stress Relief Yoga",
+    "Mindfulness Activities",
+    "Healthy Recipes",
+    "Daily Motivation",
+    "Fitness",
+    "Sleeping Better",
+    "Wellness Webinars",
+    "Spiritual Connections",
+    "Others (please specify)"
+  ];
+
   return (
-    <div className="flex flex-col mt-5">
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Listening to music
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Meditation or mindfulness practices
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Physical exercises or yoga
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Talking to friends or family
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Engaging in hobbies or creativity
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Taking naps or resting
-      </label>
+    <div className="flex flex-col mt-8">
+      {options.map((option, idx) => (
+        <label key={idx} className="flex items-center mr-4">
+          <input
+            type="checkbox"
+            className="mr-2 h-10 w-5"
+            checked={answers.question3.includes(option)}
+            onChange={() => handleCheckboxChange("question3", option)}
+          />
+          {option}
+        </label>
+      ))}
     </div>
   );
 };
@@ -373,116 +405,20 @@ const Question10 = () => {
   return (
     <div className="flex flex-col mt-5">
       <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Often feel fatigued or run down
+        <input type="checkbox" className="mr-2 h-10 w-5" /> Rarely
       </label>
       <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Difficulty focusing or concentrating
+        <input type="checkbox" className="mr-2 h-10 w-5" /> Sometimes
       </label>
       <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Physical symptoms like headaches or muscle tension
+        <input type="checkbox" className="mr-2 h-10 w-5" /> Often
       </label>
       <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Emotional instability or mood swings
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> Increased anxiety or feelings of hopelessness
-      </label>
-    </div>
-  );
-};
-const Question11 = () => {
-  return (
-    <div className="flex flex-col mt-5">
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I listen to calming music when feeling stressed
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I practice yoga for relaxation
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I prefer guided meditation for stress relief
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I find breathing exercises helpful in calming my mind
+        <input type="checkbox" className="mr-2 h-10 w-5" /> Always
       </label>
     </div>
   );
 };
 
-const Question12 = () => {
-  return (
-    <div className="flex flex-col mt-5">
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I follow a healthy eating routine to manage stress
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I enjoy participating in wellness webinars for stress management tips
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I find it beneficial to have daily motivational quotes or affirmations
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I use stress tests to assess my mental health regularly
-      </label>
-    </div>
-  );
-};
-
-const Question13 = () => {
-  return (
-    <div className="flex flex-col mt-5">
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I like to practice mindfulness exercises to stay grounded
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I find stress relief yoga routines to be effective for my mental health
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I prefer therapy sessions to handle emotional distress
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I engage in physical fitness routines to relieve stress
-      </label>
-    </div>
-  );
-};
-
-const Question14 = () => {
-  return (
-    <div className="flex flex-col mt-5">
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I struggle with maintaining a balanced work-life routine
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I often experience anxiety or overwhelm in busy situations
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I find it difficult to unwind and relax at night
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I have difficulty finding time for self-care
-      </label>
-    </div>
-  );
-};
-
-const Question15 = () => {
-  return (
-    <div className="flex flex-col mt-5">
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I enjoy trying new wellness recipes that promote mental clarity
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I feel more relaxed after a peaceful sleep routine
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I like exploring spiritual practices to enhance my well-being
-      </label>
-      <label>
-        <input type="checkbox" className="mr-2 h-10 w-5" /> I feel more energetic after participating in fitness activities
-      </label>
-    </div>
-  );
-};
 
 

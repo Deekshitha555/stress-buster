@@ -1,149 +1,115 @@
+"use client"
 import React from "react";
-import { BackgroundBeamsWithCollisionDemo } from "../../../../components/actual/backgroundbeamsdemo";
+import { useState } from "react";
 import { ThreeDCardDemo } from "../../../../components/actual/3dcardsDemo";
+import { BackgroundBeamsWithCollision } from "src/components/ui/background-beams-with-collision";
 
 const Breathingexercisepage = () => {
   // Data for the 3D cards
   const beginnerData = [
     {
-      image:"/musicimages/forest.jpg",
+      image: "/musicimages/forest.jpg",
       title: "Forest Quietness",
       description: "Discover music that soothes your mind and lifts your spirit.",
-      link: "https://example.com/relaxing-tunes",
+      link: "/video/begin.mp4",
     },
-    {
-      image:"/musicimages/clearsky.jpg",
-      title: "Free Clear Sky",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/harp.jpg",
-      title: "Free Cinematic Peaceful Harp",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/lasthope.jpg",
-      title: "Free Lost Hope",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/life.jpg",
-      title: "Free Peace In My Life",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/gentlness.jpg",
-      title: "Free Gentleness",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
+
   ];
 
   const intermediateData = [
     {
-      image:"/musicimages/desert.jpg",
+      image: "/musicimages/desert.jpg",
       title: "Free Desert Renaissance",
       description: "Find harmony with curated sounds for meditation.",
-      link: "https://example.com/meditation-melodies",
-    },
-    {
-      image:"/musicimages/inspiration.jpg",
-      title: "Free Moment of Inspiration",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/freefromclouds.jpg",
-      title: "Free From The Clouds",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/relax.jpg",
-      title: "Begin To Relax",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/stress.jpg",
-      title: "Stress Relief",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/life.jpg",
-      title: "Ever life",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
+      link: "/video/inter.mp4",
     },
   ];
 
   const advancedData = [
     {
-      image:"/musicimages/dreams.jpg",
+      image: "/musicimages/dreams.jpg",
       title: "Land Of Forgotten Dreams",
       description: "Boost your productivity with these calming tracks.",
-      link: "https://example.com/focus-beats",
-    },
-    {
-      image:"/musicimages/winds.jpg",
-      title: "Anemoi Winds",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/heart.jpg",
-      title: "Heartbeat Of Destiny",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/stars.jpg",
-      title: "Motion Of Stars",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/shadow.jpg",
-      title: "Shadows On The Water",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/forest.jpg",
-      title: "The Power Of Your Mind",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
+      link: "/video/advance.mp4",
+    }
   ];
+  const [isBlurred, setIsBlurred] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState<string>("");
+  const handleClose = () => {
+    setIsBlurred(false);
+    setCurrentVideo("")
+  };
+
+  const handleOpenBreathingExercise = (videoLink: string) => {
+    setIsBlurred(true);
+    setCurrentVideo(videoLink);
+  };
 
   return (
     <div>
-      {/* Background Beams */}
-      <BackgroundBeamsWithCollisionDemo />
+      <BackgroundBeamsWithCollision>
+        <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-black dark:text-white font-sans tracking-tight">
+          Breathe In, Breathe Out,{" "}
+          <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">
+            <div className="absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-blue-500 via-cyan-500 to-green-500 [text-shadow:0_0_rgba(0,0,0,0.1)]">
+              <span className="">Find Your Calm.</span>
+            </div>
+            <div className="relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-blue-500 via-cyan-500 to-green-500 py-4">
+              <span className="">Find Your Calm.</span>
+            </div>
+          </div>
+        </h2>
+      </BackgroundBeamsWithCollision>
+      <div className="relative">
+        <div className="mt-10 w-screen flex items-center justify-center">
+          {isBlurred && (
+            <div className="w-[700px] z-10 bg-black bg-opacity-60 text-white">
+              <div className="bg-gray-800 p-10 rounded-xl shadow-lg text-center space-y-10 relative">
+                <h2 className="text-xl font-bold">Breathing Exercise</h2>
+                <div className="flex justify-center items-center">
+                  {currentVideo && (
+                    <video
+                      src={currentVideo}
+                      className="w-[500px] h-96"
+                      autoPlay
+                      loop
+                      muted
+                    />
+                  )}
+                </div>
+                <div className="absolute top-2 right-2">
+                  <button
+                    onClick={handleClose}
+                    className="bg-red-500 text-white rounded-full px-4 py-2 hover:bg-red-600"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
+    
       {/* 3D Cards Sections */}
       <div className="mt-10 space-y-16">
         {/* Beginner Section */}
         <section>
           <h2 className="text-2xl font-bold text-center mb-6">Beginner</h2>
-          <ThreeDCardDemo data={beginnerData} />
+          <ThreeDCardDemo data={beginnerData}  onPlayNow={handleOpenBreathingExercise} />
         </section>
 
         {/* Intermediate Section */}
         <section>
           <h2 className="text-2xl font-bold text-center mb-6">Intermediate</h2>
-          <ThreeDCardDemo data={intermediateData} />
+          <ThreeDCardDemo data={intermediateData}  onPlayNow={handleOpenBreathingExercise}/>
         </section>
 
         {/* Advanced Section */}
         <section>
           <h2 className="text-2xl font-bold text-center mb-6">Advanced</h2>
-          <ThreeDCardDemo data={advancedData} />
+          <ThreeDCardDemo data={advancedData}  onPlayNow={handleOpenBreathingExercise}/>
         </section>
       </div>
     </div>

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -11,71 +11,65 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../ui/resiable-navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function NavbarDemo() {
   const navItems = [
-    {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "Questionnaire",
-      link: "/questionnaire",
-    },
-    {
-      name: "Explore Features",
-      link: "/features",
-    },
-    {
-      name: "Anonymous Sharing",
-      link: "/anonymous-sharing",
-    },
-    {
-      name: "Book an Appointment",
-      link: "/appointments",
-    },
-    {
-      name: "Women health",
-      link: "/womenhealth",
-    },
-   
+    { name: "Home", link: "/" },
+    { name: "Questionnaire", link: "/questionnaire" },
+    { name: "Explore Features", link: "/features" },
+    { name: "Anonymous Sharing", link: "/anonymous-sharing" },
+    { name: "Book an Appointment", link: "/appointments" },
+    { name: "Women health", link: "/womenhealth" },
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = document.cookie.includes("authToken");
+    setIsAuthenticated(token);
+  }, []);
+
+  const logout = () => {
+    document.cookie = "authToken=; Max-Age=0; path=/;";
+    window.location.href = "/";
+  };
 
   return (
-    <div className="w-full  bg-gray-900">
+    <div className="w-full bg-gray-900">
       <Navbar>
-        {/* Desktop Navigation */}
         <NavBody>
-        <div className="flex items-center">
-            {/* Logo */}
-            <Link href="/">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/images/logo.png"
-                alt="Stress Buster Logo"
+                src="/images/logo1.png"
+                alt="Mind Sphere Logo"
                 width={60}
-                height={60}
-                className="object-contain"
+                height={50}
+                className="object-contain rounded-lg"
               />
-              <span className="pt-20 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
-                Stress Buster
+              <span className="pt-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+              Mind Sphere
               </span>
             </Link>
           </div>
           <NavItems items={navItems} />
-          <div className="relative gap-4">
-            <NavbarButton variant="secondary">Login</NavbarButton>
+          <div className="relative flex gap-4">
+            {isAuthenticated ? (
+              <NavbarButton variant="secondary" onClick={logout}>
+                Logout
+              </NavbarButton>
+            ) : (
+              <Link href="/signup">
+                <NavbarButton variant="secondary">Signup</NavbarButton>
+              </Link>
+            )}
             <NavbarButton variant="primary">Contact Us</NavbarButton>
           </div>
         </NavBody>
-
-        {/* Mobile Navigation */}
         <MobileNav>
           <MobileNavHeader>
-          <div className="flex items-center mt-3  bg-gray-900">
-            {/* Logo */}
             <Link href="/">
               <Image
                 src="/images/logo.png"
@@ -85,38 +79,50 @@ export function NavbarDemo() {
                 className="object-contain"
               />
             </Link>
-          </div>
-          <span className="pt-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200  bg-gray-900">
-                Stress Buster
-              </span>
+            <span className="pt-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+              Stress Buster
+            </span>
             <MobileNavToggle
               isOpen={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             />
           </MobileNavHeader>
-
           <MobileNavMenu
             isOpen={isMobileMenuOpen}
             onClose={() => setIsMobileMenuOpen(false)}
           >
             {navItems.map((item, idx) => (
-              <a
-                key={`mobile-link-${idx}`}
+              <Link
+                key={idx}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-600 dark:text-neutral-300"
               >
-                <span className="block">{item.name}</span>
-              </a>
+                {item.name}
+              </Link>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Login
-              </NavbarButton>
+              {isAuthenticated ? (
+                <NavbarButton
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  variant="primary"
+                  className="w-full"
+                >
+                  Logout
+                </NavbarButton>
+              ) : (
+                <Link href="/signup" className="w-full">
+                  <NavbarButton
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                  >
+                    Signup
+                  </NavbarButton>
+                </Link>
+              )}
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"

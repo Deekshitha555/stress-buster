@@ -2,7 +2,7 @@ import React from "react";
 import { BackgroundBeamsWithCollisionDemo } from "../../../../components/actual/backgroundbeamsdemo";
 import { ThreeDCardDemo } from "../../../../components/actual/3dcardsDemo";
 
-const Fitnesstipspage = () => {
+const Healthyreceipepage = () => {
   // Data for the 3D cards
   const beginnerData = [
     {
@@ -150,4 +150,4 @@ const Fitnesstipspage = () => {
   );
 };
 
-export default Fitnesstipspage;
+export default Healthyreceipepage;

@@ -1,9 +1,12 @@
 import React from 'react'
+import { CardHoverEffectDemo } from '../../../components/actual/anonymoussharing'
 
-const Anonymous = () => {
+const Anonymoussharing = () => {
   return (
-    <div>anonymous</div>
+    <div>
+        <CardHoverEffectDemo/>
+    </div>
   )
 }
 
-export default Anonymous
+export default Anonymoussharing

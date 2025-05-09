@@ -14,8 +14,11 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Stress Buster",
+  title: "Mind Sphere",
   description:"Your go-to solution for stress relief, featuring meditation, music, and personalized wellness resources.",
+   icons:{
+    icon:"/images/logo1.png"
+  }
 };
 
 export default function RootLayout({

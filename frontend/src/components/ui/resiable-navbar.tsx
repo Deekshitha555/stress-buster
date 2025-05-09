@@ -240,7 +240,7 @@ export const MobileNavToggle = ({
 
 export const NavbarButton = ({
   href,
-  as: Tag = "a",
+  as: Tag = "button",
   children,
   className,
   variant = "primary",
@@ -266,10 +266,10 @@ export const NavbarButton = ({
     gradient:
       "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
-
+  const isLink = Tag === "a" && href;
   return (
     <Tag
-      href={href || undefined}
+      href={isLink ? href : undefined}
       className={cn(baseStyles, variantStyles[variant], className)}
       {...props}
     >

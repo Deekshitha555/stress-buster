@@ -1,4 +1,5 @@
 
+import Footer from "src/components/actual/Footer";
 import { AnimatedTestimonialsDemo } from "../components/actual/animatedtestimonialDemo";
 import { BackgroundBoxesDemo } from "../components/actual/backgroundboxesdemo";
 import { GoogleGeminiEffectDemo } from "../components/actual/geminieffectDemo";
@@ -14,6 +15,7 @@ export default function Home() {
         <BackgroundBoxesDemo/>
         <GoogleGeminiEffectDemo/>
         <AnimatedTestimonialsDemo/>
+        <Footer/>
     </div>
   );
 }

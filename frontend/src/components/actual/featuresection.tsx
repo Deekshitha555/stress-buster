@@ -5,7 +5,6 @@ import {
   IconMusic, 
   IconYoga, 
   IconWind, 
-  IconUserHeart, 
   IconBrain, 
   IconSoup ,
   IconSunrise, 
@@ -46,13 +45,7 @@ export function FeaturesSectionDemo() {
       icon: <IconYoga />,
        link:"/features/yoga"
     },
-    {
-      title: "Therapy Sessions",
-      description:
-        "Access professional therapy sessions for mental health support.",
-      icon: <IconUserHeart />,
-       link:"/features/therapy-sessions"
-    },
+
     {
       title: "Mindfulness Activities",
       description:

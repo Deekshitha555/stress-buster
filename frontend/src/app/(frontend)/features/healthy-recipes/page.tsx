@@ -1,153 +1,100 @@
-import React from "react";
-import { BackgroundBeamsWithCollisionDemo } from "../../../../components/actual/backgroundbeamsdemo";
-import { ThreeDCardDemo } from "../../../../components/actual/3dcardsDemo";
+import { useState } from "react";
 
-const Healthyreceipepage = () => {
-  // Data for the 3D cards
-  const beginnerData = [
-    {
-      image:"/musicimages/forest.jpg",
-      title: "Forest Quietness",
-      description: "Discover music that soothes your mind and lifts your spirit.",
-      link: "https://example.com/relaxing-tunes",
-    },
-    {
-      image:"/musicimages/clearsky.jpg",
-      title: "Free Clear Sky",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/harp.jpg",
-      title: "Free Cinematic Peaceful Harp",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/lasthope.jpg",
-      title: "Free Lost Hope",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/life.jpg",
-      title: "Free Peace In My Life",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-    {
-      image:"/musicimages/gentlness.jpg",
-      title: "Free Gentleness",
-      description: "Start your journey with gentle, soothing melodies.",
-      link: "https://example.com/calm-beginnings",
-    },
-  ];
+export default function CalorieCalculator() {
+  const [showForm, setShowForm] = useState(false);
+  const [bmi, setBmi] = useState<string>("");  // Explicitly set the type as string
+  const [calories, setCalories] = useState<number | null>(null);  // Allow number or null
+  const [recommendations, setRecommendations] = useState<string>("");
 
-  const intermediateData = [
-    {
-      image:"/musicimages/desert.jpg",
-      title: "Free Desert Renaissance",
-      description: "Find harmony with curated sounds for meditation.",
-      link: "https://example.com/meditation-melodies",
-    },
-    {
-      image:"/musicimages/inspiration.jpg",
-      title: "Free Moment of Inspiration",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/freefromclouds.jpg",
-      title: "Free From The Clouds",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/relax.jpg",
-      title: "Begin To Relax",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/stress.jpg",
-      title: "Stress Relief",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-    {
-      image:"/musicimages/life.jpg",
-      title: "Ever life",
-      description: "Elevate your practice with these serene tracks.",
-      link: "https://example.com/serenity-beats",
-    },
-  ];
+  const handleBlur = () => {
+    setShowForm(true);
+  };
 
-  const advancedData = [
-    {
-      image:"/musicimages/dreams.jpg",
-      title: "Land Of Forgotten Dreams",
-      description: "Boost your productivity with these calming tracks.",
-      link: "https://example.com/focus-beats",
-    },
-    {
-      image:"/musicimages/winds.jpg",
-      title: "Anemoi Winds",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/heart.jpg",
-      title: "Heartbeat Of Destiny",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/stars.jpg",
-      title: "Motion Of Stars",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/shadow.jpg",
-      title: "Shadows On The Water",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-    {
-      image:"/musicimages/forest.jpg",
-      title: "The Power Of Your Mind",
-      description: "Achieve deep relaxation with advanced soundscapes.",
-      link: "https://example.com/deep-relaxation",
-    },
-  ];
+  const calculateCalories = (bmiValue: string) => {  // Explicitly set the parameter type as string
+    const bmiNum = parseFloat(bmiValue);
+    let recommendedCalories = 0;
+
+    if (bmiNum < 18.5) {
+      recommendedCalories = 2500; // Higher calorie intake for underweight individuals
+      setRecommendations(
+        "Include healthy fats (like avocados, nuts), proteins, and complex carbs."
+      );
+    } else if (bmiNum >= 18.5 && bmiNum < 24.9) {
+      recommendedCalories = 2000; // Normal calorie intake for healthy BMI
+      setRecommendations(
+        "Maintain a balanced diet with fruits, vegetables, proteins, and whole grains."
+      );
+    } else if (bmiNum >= 25 && bmiNum < 29.9) {
+      recommendedCalories = 1800; // Lower calorie intake for overweight individuals
+      setRecommendations(
+        "Focus on low-calorie foods, lean proteins, and avoid sugary snacks."
+      );
+    } else {
+      recommendedCalories = 1500; // Calorie intake for obese individuals
+      setRecommendations(
+        "Avoid high-fat and sugary foods. Focus on vegetables, lean proteins, and whole grains."
+      );
+    }
+
+    setCalories(recommendedCalories);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {  // Explicitly define the event type
+    e.preventDefault();
+    if (bmi) {
+      calculateCalories(bmi);
+    }
+  };
 
   return (
-    <div>
-      {/* Background Beams */}
-      <BackgroundBeamsWithCollisionDemo />
+    <div className="p-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-bold mb-4">Calorie & Stress Management</h2>
 
-      {/* 3D Cards Sections */}
-      <div className="mt-10 space-y-16">
-        {/* Beginner Section */}
-        <section>
-          <h2 className="text-2xl font-bold text-center mb-6">Beginner</h2>
-          <ThreeDCardDemo data={beginnerData} />
-        </section>
+      {!showForm && (
+        <input
+          type="text"
+          placeholder="Focus on this field, then blur it"
+          onBlur={handleBlur}
+          className="w-full p-2 border rounded mb-4"
+        />
+      )}
 
-        {/* Intermediate Section */}
-        <section>
-          <h2 className="text-2xl font-bold text-center mb-6">Intermediate</h2>
-          <ThreeDCardDemo data={intermediateData} />
-        </section>
+      {showForm && (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block">
+            <span className="text-gray-700">Enter your BMI:</span>
+            <input
+              type="number"
+              step="0.1"
+              value={bmi}
+              onChange={(e) => setBmi(e.target.value)}
+              className="mt-1 block w-full p-2 border rounded"
+              placeholder="e.g., 23.5"
+              required
+            />
+          </label>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+          >
+            Calculate Calories
+          </button>
+        </form>
+      )}
 
-        {/* Advanced Section */}
-        <section>
-          <h2 className="text-2xl font-bold text-center mb-6">Advanced</h2>
-          <ThreeDCardDemo data={advancedData} />
-        </section>
-      </div>
+      {calories && (
+        <div className="mt-4 bg-green-100 p-4 rounded">
+          <h3 className="text-lg font-semibold text-green-700">
+            Recommended Calorie Intake: {calories} kcal/day
+          </h3>
+          <p className="mt-2">
+            <strong>Dietary Recommendations:</strong> {recommendations}
+          </p>
+          <p className="mt-2 text-red-600">
+            <strong>Foods to Avoid:</strong> High-sugar foods, fried items, caffeine, and alcohol.
+          </p>
+        </div>
+      )}
     </div>
   );
-};
-
-export default Healthyreceipepage;
+}
